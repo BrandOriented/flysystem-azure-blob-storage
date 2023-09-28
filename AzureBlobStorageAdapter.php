@@ -61,13 +61,13 @@ class AzureBlobStorageAdapter implements FilesystemAdapter, PublicUrlGenerator, 
     private PathPrefixer $prefixer;
 
     public function __construct(
-        private BlobRestProxy $client,
-        private string $container,
-        string $prefix = '',
-        MimeTypeDetector $mimeTypeDetector = null,
-        private int $maxResultsForContentsListing = 5000,
-        private string $visibilityHandling = self::ON_VISIBILITY_THROW_ERROR,
-        private ?StorageServiceSettings $serviceSettings = null,
+        private readonly BlobRestProxy           $client,
+        private readonly string                  $container,
+        string                                   $prefix = '',
+        MimeTypeDetector                         $mimeTypeDetector = null,
+        private readonly int                     $maxResultsForContentsListing = 5000,
+        private readonly string                  $visibilityHandling = self::ON_VISIBILITY_THROW_ERROR,
+        private readonly ?StorageServiceSettings $serviceSettings = null,
     ) {
         $this->prefixer = new PathPrefixer($prefix);
         $this->mimeTypeDetector = $mimeTypeDetector ?? new FinfoMimeTypeDetector();
