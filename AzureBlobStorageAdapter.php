@@ -331,13 +331,14 @@ class AzureBlobStorageAdapter implements FilesystemAdapter, PublicUrlGenerator, 
 
     private function normalizeBlobProperties(string $path, BlobProperties $properties): FileAttributes
     {
+        $contentMD5 = $properties->getContentMD5() === null ? ($properties->getETag() === null ? null : base64_encode(md5($properties->getETag()))) : $properties->getContentMD5();
         return new FileAttributes(
             $path,
             $properties->getContentLength(),
             null,
             $properties->getLastModified()->getTimestamp(),
             $properties->getContentType(),
-            ['md5_checksum' => $properties->getContentMD5()]
+            ['md5_checksum' => $contentMD5]
         );
     }
 
